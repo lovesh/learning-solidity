@@ -8,7 +8,7 @@ contract owned {
     }
 
     modifier onlyOwner {
-        require(msg.sender != owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -62,7 +62,7 @@ contract MyToken is owned {
     /* Send coins */
     function transfer(address _to, uint256 _value) {
         /* Check if sender has balance and for overflows */
-        require (balanceOf[msg.sender] >= _value && balanceOf[_to] + _value >= balanceOf[_to]);
+        require(balanceOf[msg.sender] >= _value && balanceOf[_to] + _value >= balanceOf[_to]);
 
         require(!frozenAccount[msg.sender]);
 

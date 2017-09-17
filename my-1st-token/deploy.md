@@ -1,6 +1,7 @@
 Deploying using geth console takes 2 steps:
-1. Complile using solidity compliler and put the output in a variable in a js file (`temp-compile-contract.js`)
-2. Load the js script in console so that the console has access to the variable (`compiled`) holding the compiled contract
+
+1. Complile using solidity compliler and put the output in a variable in a js file (`temp-compile-contract.js`).
+2. Load the js script in console so that the console has access to the variable (`compiled`) holding the compiled contract.
 
 Examples of a deployments
 
@@ -49,7 +50,7 @@ Examples of a deployments
     abi = JSON.parse(compiled.contracts["MyToken2.sol:MyToken"].abi)
     bincode = "0x"+compiled.contracts["MyToken2.sol:MyToken"].bin
     NewTokIfc3 = eth.contract(abi)
-    contract3 = NewTokIfc.new(10000, "NewToken3", 2, "%", primaryAddress, 1, 2, 1000, {from: primaryAddress, data: bincode, value: 100000000000000000000, gas: 2100000})
+    contract3 = NewTokIfc3.new(10000, "NewToken3", 2, "%", primaryAddress, 1, 2, 1000, {from: primaryAddress, data: bincode, value: 100000000000000000000, gas: 2100000})
     ```
 
 To see the contract in Ethereum wallet, get the contact address as `contract.address` and the json interface as `JSON.stringify(abi)`.
