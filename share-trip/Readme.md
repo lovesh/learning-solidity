@@ -1,7 +1,7 @@
 Sharetrip
 
 Overview
-Split-wise for trips: add members till trip finalised, each member can add expenses he did and optionally for members he did (default being made for all), each member can add expenses with invoice (hash of invoice), each member can add moeny to contract, once contract is closed and sum of payments reach are above expenses, money is returned appropriately. Contract has a spend function which can be used to pay any outsider (non-member but on ethereum).
+Split-wise for trips: add members till trip finalised, each member can add expenses he did and optionally for members he did (default being made for all), each member can add expenses with invoice (hash of invoice), each member can add money to contract, once contract is closed and sum of payments reach are above expenses, money is returned appropriately. Contract has a spend function which can be used to pay any outsider (non-member but on ethereum).
 
 Details:
 1. Only one owner
