@@ -14,14 +14,14 @@ contract('Verifier', function (accounts) {
   });
 
   function checkReturnVal(proof, input) {
-    var a = proof.a;
-    var a_p = proof.a_p;
-    var b = proof.b;
-    var b_p = proof.b_p;
-    var c = proof.c;
-    var c_p = proof.c_p;
-    var h = proof.h;
-    var k = proof.k;
+    var a = proof.A;
+    var a_p = proof.A_p;
+    var b = proof.B;
+    var b_p = proof.B_p;
+    var c = proof.C;
+    var c_p = proof.C_p;
+    var h = proof.H;
+    var k = proof.K;
 
     return verifier.verifyTx.call(a, a_p, b, b_p, c, c_p, h, k, input).then(function (val) {
       assert.equal(val, true, val + " should be true");

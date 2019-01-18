@@ -9,5 +9,5 @@ module.exports = function (deployer) {
   deployer.deploy(ConvertLib);
   deployer.link(ConvertLib, MetaCoin);
   deployer.deploy(MetaCoin);
-  deployer.deploy(Sharetrip1, 10, { from: web3.eth.accounts[0], value: 100000000000000000, gas: 2100000 });
+  deployer.deploy(Sharetrip1, 10, crom: web3.eth.accounts[0], value: 100000000000000000, gas: 2100000 });
 };

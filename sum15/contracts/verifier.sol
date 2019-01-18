@@ -156,6 +156,16 @@ contract Verifier {
         Pairing.G1Point K;
         Pairing.G1Point H;
     }
+    function bytes32ToString (bytes32 data) returns (string) {
+        bytes memory bytesString = new bytes(32);
+        for (uint j=0; j<32; j++) {
+            byte char = byte(bytes32(uint(data) * 2 ** (8 * j)));
+            if (char != 0) {
+                bytesString[j] = char;
+            }
+        }
+        return string(bytesString);
+    }
     function verifyingKey() internal returns (VerifyingKey vk) {
         vk.A = Pairing.G2Point([0x2f66e7ff688469322c2254b8bbc0e0fdbf7d1724fac53cdba8c9969a16d9d9d9, 0x1a62450c530315eeadab091a64aa395eaf393a1dc10cdfb83537b902c971c707], [0x1b6cf2c7469f81b217f33be0a6cd9abcabd229e9dcabcdcbbd6f7460198ff845, 0x1dd070f36af8b77967bab6e772b4d1cf23cfa1f94bbd768b9587131f65def8d]);
         vk.B = Pairing.G1Point(0xefc4761f3e44ef7edb536e906511c1d25236a0fdd7ceecce0acda3fd15edb7b, 0x26b985370f3bb9002699e1957104d30ffe2f31e05cdfd66630e4a1d73c3be686);
@@ -169,13 +179,21 @@ contract Verifier {
         vk.IC[1] = Pairing.G1Point(0x108e8503681a49c3f1cbbc992c4eea806c4aaefb6fb9d4ad42d137c78634bdd6, 0x98265dbcdbcd898a020751a92488e49e5f6c6269fa94b588e533225c7bef666);
         vk.IC[2] = Pairing.G1Point(0x25feb1b66e389461bbef0b975bed920a275ba4000300a5f246ee919a2bfaeade, 0x1c8526385efd023fc71401e77dc3018a8448cf07467a7fb3883d3e41bfeb4bc5);
     }
+    event Trace(string);
+    event Trace1(string, string);
     function verify(uint[] input, Proof proof) internal returns (uint) {
         VerifyingKey memory vk = verifyingKey();
         require(input.length + 1 == vk.IC.length);
+        emit Trace(">>>>1");
         // Compute the linear combination vk_x
         Pairing.G1Point memory vk_x = Pairing.G1Point(0, 0);
-        for (uint i = 0; i < input.length; i++)
+        emit Trace(">>>>2");
+        for (uint i = 0; i < input.length; i++) {
+            string memory s = ">>>>3."; 
+            emit Trace1(s, (bytes32ToString(bytes32(i))));
             vk_x = Pairing.add(vk_x, Pairing.mul(vk.IC[i + 1], input[i]));
+        }
+        emit Trace(">>>>4");
         vk_x = Pairing.add(vk_x, vk.IC[0]);
         if (!Pairing.pairingProd2(proof.A, vk.A, Pairing.negate(proof.A_p), Pairing.P2())) return 1;
         if (!Pairing.pairingProd2(vk.B, proof.B, Pairing.negate(proof.B_p), Pairing.P2())) return 2;
@@ -204,6 +222,7 @@ contract Verifier {
             uint[2] k,
             uint[2] input
         ) returns (bool r) {
+        emit Trace(">>>>0");
         Proof memory proof;
         proof.A = Pairing.G1Point(a[0], a[1]);
         proof.A_p = Pairing.G1Point(a_p[0], a_p[1]);
@@ -217,6 +236,7 @@ contract Verifier {
         for(uint i = 0; i < input.length; i++){
             inputValues[i] = input[i];
         }
+        emit Trace(">>>>0.5");
         if (verify(inputValues, proof) == 0) {
             Verified("Transaction successfully verified.");
             return true;
